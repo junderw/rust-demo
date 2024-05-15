@@ -3,7 +3,11 @@ use leptos::*;
 use leptos_router::*;
 
 #[component]
-pub fn NavBar(logged_in: Signal<bool>, #[prop(into)] on_logout: Callback<()>) -> impl IntoView {
+pub fn NavBar(
+    logged_in: Signal<bool>,
+    #[prop(into)] on_logout: Callback<()>,
+    #[prop(into)] btc_price: Callback<()>,
+) -> impl IntoView {
     view! {
         <nav>
             <Show
@@ -21,6 +25,17 @@ pub fn NavBar(logged_in: Signal<bool>, #[prop(into)] on_logout: Callback<()>) ->
                     on:click=move |_| on_logout.call(())
                 >
                     "Logout"
+                </a>
+                " | "
+                <a href="/">
+                    "Go Home"
+                </a>
+                " | "
+                <a
+                    href="#"
+                    on:click=move |_| btc_price.call(())
+                >
+                    "Show BTC Price"
                 </a>
             </Show>
         </nav>

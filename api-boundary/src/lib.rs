@@ -12,6 +12,11 @@ pub struct UserInfo {
 }
 
 #[derive(Clone, Serialize, Deserialize)]
+pub struct BtcInfo {
+    pub price_info: String,
+}
+
+#[derive(Clone, Serialize, Deserialize)]
 pub struct ApiToken {
     pub token: String,
 }
