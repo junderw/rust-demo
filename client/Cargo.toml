@@ -1,0 +1,21 @@
+[package]
+name = "client"
+version = "0.0.0"
+edition = "2021"
+license = "MIT"
+publish = false
+
+[dependencies]
+api-boundary = { workspace = true }
+
+leptos = { version = "0.6.11", features = ["csr"] }
+leptos_meta = { version = "0.6.11", features = ["csr"] }
+leptos_router = { version = "0.6.11", features = ["csr"] }
+
+log = "0.4"
+console_error_panic_hook = "0.1"
+console_log = "1"
+gloo-net = "0.5"
+gloo-storage = "0.3"
+serde = "1.0"
+thiserror = "1.0"
