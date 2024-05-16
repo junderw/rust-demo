@@ -1,8 +1,9 @@
+pub mod btc;
 pub mod home;
 pub mod login;
 pub mod register;
 
-pub use self::{home::*, login::*, register::*};
+pub use self::{btc::*, home::*, login::*, register::*};
 
 #[derive(Debug, Clone, Copy, Default)]
 pub enum Page {
@@ -10,6 +11,7 @@ pub enum Page {
     Home,
     Login,
     Register,
+    Btc,
 }
 
 impl Page {
@@ -18,6 +20,7 @@ impl Page {
             Self::Home => "/",
             Self::Login => "/login",
             Self::Register => "/register",
+            Self::Btc => "/btc",
         }
     }
 }

@@ -56,6 +56,10 @@ impl AuthorizedApi {
         let url = format!("{}/users", self.url);
         self.send(Request::get(&url)).await
     }
+    pub async fn get_btc(&self) -> Result<BtcInfo> {
+        let url = format!("{}/btc", self.url);
+        self.send(Request::get(&url)).await
+    }
     pub fn token(&self) -> &ApiToken {
         &self.token
     }

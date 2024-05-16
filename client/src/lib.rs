@@ -18,6 +18,7 @@ pub fn App() -> impl IntoView {
 
     let authorized_api = create_rw_signal(None::<api::AuthorizedApi>);
     let user_info = create_rw_signal(None::<UserInfo>);
+    let btc_info = create_rw_signal(None::<BtcInfo>);
     let logged_in = Signal::derive(move || authorized_api.get().is_some());
 
     // -- actions -- //
@@ -55,10 +56,30 @@ pub fn App() -> impl IntoView {
         }
     });
 
+    let get_btc = create_action(move |_| async move {
+        match authorized_api.get() {
+            Some(api) => match api.get_btc().await {
+                Ok(info) => btc_info.update(|b| *b = Some(info)),
+                Err(err) => {
+                    log::error!("Unable to get btc info: {err}")
+                }
+            },
+            None => {
+                log::error!("Unable to get BTC for user: not logged in")
+            }
+        }
+    });
+
     // -- callbacks -- //
 
     let on_logout = move |_| {
         logout.dispatch(());
+    };
+
+    let btc_price = move |_| {
+        get_btc.dispatch(());
+        let navigate = use_navigate();
+        navigate(Page::Btc.path(), Default::default());
     };
 
     // -- init API -- //
@@ -93,7 +114,7 @@ pub fn App() -> impl IntoView {
 
     view! {
         <Router>
-            <NavBar logged_in on_logout/>
+            <NavBar logged_in on_logout btc_price/>
             <main>
                 <Routes>
                     <Route
@@ -123,6 +144,12 @@ pub fn App() -> impl IntoView {
                         path=Page::Register.path()
                         view=move || {
                             view! { <Register api=unauthorized_api/> }
+                        }
+                    />
+                    <Route
+                        path=Page::Btc.path()
+                        view=move || {
+                            view! { <Btc btc_info=btc_info.into()/> }
                         }
                     />
                 </Routes>

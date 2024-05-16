@@ -46,6 +46,7 @@ async fn main() -> anyhow::Result<()> {
         .route("/logout", post(logout))
         .route("/users", post(create_user))
         .route("/users", get(get_user_info))
+        .route("/btc", get(get_btc_info))
         .route_layer(cors_layer)
         .with_state(shared_state);
 
@@ -115,5 +116,16 @@ async fn get_user_info(
     let CurrentUser { email, .. } = user;
     Ok(Json(json::UserInfo {
         email: email.into_string(),
+    }))
+}
+
+async fn get_btc_info(
+    State(state): State<Arc<RwLock<AppState>>>,
+    TypedHeader(auth): TypedHeader<Authorization<Bearer>>,
+) -> Result<json::BtcInfo> {
+    let user = state.read().authorize_user(auth.token())?;
+    let CurrentUser { email, .. } = user;
+    Ok(Json(json::BtcInfo {
+        price_info: format!("{}... お前さ... 1 BTC = 1 BTC だろ！", email.into_string()),
     }))
 }
