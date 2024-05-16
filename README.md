@@ -8,7 +8,7 @@ SSRの機能を使わずに、サーバ側とクライアント側を分けた�
 
 ## はじめに
 
-- [`rustup`](https://www.rust-lang.org/ja/tools/install)を介してRustをインストールしてください。
+- [`rustup`](https://www.rust-lang.org/ja/tools/install)を介してRustをインストールしてください。すでにインストール済みの方は `rustup default stable` 及び `rustup update` を実行し最新のstable使ってることを確認しましょう。 
 - `rustup target add wasm32-unknown-unknown` を実行し、WASMのターゲットが無いとクライアントサイドコンパイルできない。
 - `trunk` が必要。 `cargo install --locked trunk` もしくは `brew install trunk`
 
